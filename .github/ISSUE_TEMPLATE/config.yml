@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discussions
+    url: https://github.com/ringo380/DroboBridge/discussions
+    about: Ask questions and discuss DroboBridge
+  - name: drobo-utils (Linux)
+    url: https://github.com/drobo-utils/drobo-utils
+    about: For Linux Drobo support, see drobo-utils

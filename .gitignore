@@ -1,0 +1,67 @@
+# Xcode
+*.xcodeproj/
+!*.xcodeproj/project.pbxproj
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode auto-generated
+*.xcuserstate
+*.moved-aside
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+!default.pbxuser
+xcshareddata/
+!*.xcshareddata/xcschemes/
+
+# Build products
+build/
+*.app
+*.framework
+*.dylib
+
+# Sensitive files
+*.pem
+*.p12
+*.key
+.env
+.env.*
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Coverage
+coverage/
+*.gcov
+*.gcda
+*.gcno
+
+# Logs
+*.log
+logs/
