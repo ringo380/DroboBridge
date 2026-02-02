@@ -14,6 +14,7 @@ import QuickLookUI
 struct FileBrowserTab: View {
     @EnvironmentObject var coordinator: DroboStorageCoordinator
     @StateObject private var browserState = FileBrowserState()
+    @FocusState private var searchFieldFocused: Bool
 
     var body: some View {
         HSplitView {
@@ -28,7 +29,7 @@ struct FileBrowserTab: View {
             // Right: File list and detail
             VStack(spacing: 0) {
                 // Toolbar
-                FileBrowserToolbar(state: browserState)
+                FileBrowserToolbar(state: browserState, searchFieldFocused: $searchFieldFocused)
 
                 Divider()
 
@@ -75,6 +76,34 @@ struct FileBrowserTab: View {
         } message: {
             Text(browserState.errorMessage ?? "An error occurred")
         }
+        // Hidden buttons for keyboard shortcuts
+        .background(
+            VStack(spacing: 0) {
+                // ⌘F - Focus search field
+                Button("") { searchFieldFocused = true }
+                    .keyboardShortcut("f", modifiers: .command)
+                    .opacity(0)
+                    .frame(width: 0, height: 0)
+
+                // ⌘N - New folder
+                Button("") { browserState.showNewFolderSheet = true }
+                    .keyboardShortcut("n", modifiers: .command)
+                    .disabled(browserState.selectedVolume?.isReadWrite != true)
+                    .opacity(0)
+                    .frame(width: 0, height: 0)
+
+                // ⌘⌫ - Delete with confirmation
+                Button("") {
+                    if let item = browserState.selectedItem {
+                        browserState.deleteItem(item)
+                    }
+                }
+                .keyboardShortcut(.delete, modifiers: .command)
+                .disabled(browserState.selectedItem == nil || browserState.selectedVolume?.isReadWrite != true)
+                .opacity(0)
+                .frame(width: 0, height: 0)
+            }
+        )
     }
 }
 
@@ -382,6 +411,7 @@ struct VolumeSidebarRow: View {
 
 struct FileBrowserToolbar: View {
     @ObservedObject var state: FileBrowserState
+    @FocusState.Binding var searchFieldFocused: Bool
 
     var body: some View {
         HStack(spacing: 12) {
@@ -393,6 +423,7 @@ struct FileBrowserToolbar: View {
                     Image(systemName: "chevron.left")
                 }
                 .disabled(!state.canGoBack)
+                .keyboardShortcut("[", modifiers: .command)
 
                 Button {
                     state.goForward()
@@ -400,6 +431,7 @@ struct FileBrowserToolbar: View {
                     Image(systemName: "chevron.right")
                 }
                 .disabled(!state.canGoForward)
+                .keyboardShortcut("]", modifiers: .command)
 
                 Button {
                     state.goUp()
@@ -407,6 +439,7 @@ struct FileBrowserToolbar: View {
                     Image(systemName: "chevron.up")
                 }
                 .disabled(!state.canGoUp)
+                .keyboardShortcut(.upArrow, modifiers: .command)
             }
             .buttonStyle(.borderless)
 
@@ -422,10 +455,11 @@ struct FileBrowserToolbar: View {
 
             Spacer()
 
-            // Search field
+            // Search field (⌘F to focus)
             TextField("Search", text: $state.searchQuery)
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 150)
+                .focused($searchFieldFocused)
 
             // Actions
             Menu {
@@ -467,6 +501,7 @@ struct FileBrowserToolbar: View {
                 Image(systemName: "arrow.clockwise")
             }
             .buttonStyle(.borderless)
+            .keyboardShortcut("r", modifiers: .command)
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
