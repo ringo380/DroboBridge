@@ -72,9 +72,8 @@ struct FileRowView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            // Icon
-            Image(systemName: item.systemImage)
-                .foregroundColor(iconColor)
+            // Icon - use actual file type icon from LaunchServices
+            FileIconView(url: item.url, size: 20)
                 .frame(width: 20)
 
             // Name
@@ -103,24 +102,6 @@ struct FileRowView: View {
         }
         .padding(.vertical, 2)
     }
-
-    private var iconColor: Color {
-        if item.isDirectory {
-            return .blue
-        }
-        switch item.fileExtension {
-        case "jpg", "jpeg", "png", "gif", "heic":
-            return .purple
-        case "mov", "mp4", "m4v":
-            return .pink
-        case "mp3", "m4a", "wav":
-            return .red
-        case "pdf":
-            return .orange
-        default:
-            return .secondary
-        }
-    }
 }
 
 // MARK: - File Name Cell (for Table)
@@ -130,8 +111,8 @@ struct FileNameCell: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: item.systemImage)
-                .foregroundColor(iconColor)
+            // Icon - use actual file type icon from LaunchServices
+            FileIconView(url: item.url, size: 20)
                 .frame(width: 20)
 
             Text(item.name)
@@ -142,24 +123,6 @@ struct FileNameCell: View {
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
-        }
-    }
-
-    private var iconColor: Color {
-        if item.isDirectory {
-            return .blue
-        }
-        switch item.fileExtension {
-        case "jpg", "jpeg", "png", "gif", "heic":
-            return .purple
-        case "mov", "mp4", "m4v":
-            return .pink
-        case "mp3", "m4a", "wav":
-            return .red
-        case "pdf":
-            return .orange
-        default:
-            return .secondary
         }
     }
 }
