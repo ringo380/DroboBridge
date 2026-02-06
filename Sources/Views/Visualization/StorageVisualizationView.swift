@@ -88,7 +88,7 @@ struct CapacityOverview: View {
             // Legend
             HStack(spacing: 24) {
                 LegendItem(color: usedPercentageColor, label: "Used", value: formatBytes(usedSpace))
-                LegendItem(color: Color.secondary.opacity(0.3), label: "Free", value: formatBytes(freeSpace))
+                LegendItem(color: Color(nsColor: .tertiaryLabelColor), label: "Free", value: formatBytes(freeSpace))
                 Spacer()
                 Text("\(Int(usedPercentage))% used")
                     .font(.caption)
@@ -239,7 +239,7 @@ struct VolumeBarView: View {
             }
         }
         .padding(8)
-        .background(Color.secondary.opacity(0.05))
+        .background(Color(nsColor: .quaternarySystemFill))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
