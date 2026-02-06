@@ -18,7 +18,7 @@ enum DriveBayStatus {
 
     var color: Color {
         switch self {
-        case .empty: return .gray.opacity(0.3)
+        case .empty: return Color(nsColor: .separatorColor)
         case .present: return .green
         case .warning: return .yellow
         case .failed: return .red
@@ -147,11 +147,11 @@ struct DriveBaySlot: View {
             // Bay visual
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(bay.status.color.opacity(0.2))
+                    .fill(bay.status.color.opacity(bay.status == .empty ? 0.1 : 0.2))
                     .frame(width: 60, height: 100)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(bay.status.color, lineWidth: 2)
+                            .stroke(bay.status.color.opacity(bay.status == .empty ? 0.5 : 1.0), lineWidth: 2)
                     )
 
                 VStack(spacing: 8) {

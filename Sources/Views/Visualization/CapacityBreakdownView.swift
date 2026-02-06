@@ -49,7 +49,8 @@ struct CapacityBreakdownView: View {
     private func segmentColor(for index: Int, isUsed: Bool) -> Color {
         let baseColors: [Color] = [.blue, .green, .orange, .purple, .pink, .cyan]
         let baseColor = baseColors[index % baseColors.count]
-        return isUsed ? baseColor : baseColor.opacity(0.3)
+        // Use higher opacity for free space to ensure visibility in dark mode
+        return isUsed ? baseColor : baseColor.opacity(0.4)
     }
 
     var body: some View {
